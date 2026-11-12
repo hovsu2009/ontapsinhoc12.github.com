@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thành tựu Công nghệ Gene</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0f172a',
+                        cardBg: 'rgba(30, 41, 59, 0.75)',
+                        accentPrimary: '#6366f1',
+                        accentSecondary: '#8b5cf6',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @keyframes dynamicGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(-45deg, #0f172a, #1e1b4b, #020617, #111827);
+            background-size: 400% 400%;
+            animation: dynamicGradient 18s ease infinite;
+            color: #f8fafc;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 8px 30px -4px rgba(99, 102, 241, 0.25);
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 
+                0 10px 25px -5px rgba(0, 0, 0, 0.5),
+                0 8px 10px -6px rgba(0, 0, 0, 0.3),
+                0 0 1px 1px rgba(255, 255, 255, 0.05) inset;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .soft-shadow-button {
+            box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.35);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .soft-shadow-button:hover {
+            box-shadow: 0 8px 25px 0 rgba(139, 92, 246, 0.55);
+            transform: translateY(-2px) scale(1.02);
+        }
+        .soft-shadow-button:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .powerup-btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .powerup-btn:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.04);
+            border-color: rgba(129, 140, 248, 0.6);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+        }
+        .powerup-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .option-btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .option-btn:hover:not(:disabled) {
+            transform: translateX(6px) scale(1.01);
+            background: rgba(30, 41, 59, 0.95);
+            border-color: rgba(129, 140, 248, 0.6);
+            box-shadow: 0 4px 18px rgba(99, 102, 241, 0.25);
+        }
+
+        .tf-btn-true:hover:not(:disabled) {
+            background-color: rgba(16, 185, 129, 0.25);
+            transform: scale(1.08);
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+        }
+        .tf-btn-false:hover:not(:disabled) {
+            background-color: rgba(244, 63, 94, 0.25);
+            transform: scale(1.08);
+            box-shadow: 0 0 12px rgba(244, 63, 94, 0.4);
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(139, 92, 246, 0.6); }
+        }
+        .glow-effect {
+            animation: pulseGlow 3s infinite;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="glass sticky top-0 z-50 px-4 py-3 border-b border-slate-800">
+        <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3 group cursor-pointer" onclick="returnToHome()">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-dna text-xl text-white"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Sinh học 12: Công Nghệ Gene</h1>
+                    <p class="text-xs text-slate-400">Ôn tập thành tựu Công nghệ Gene</p>
+                </div>
+            </div>
+
+            <!-- Stats & Player Controls -->
+            <div class="flex items-center space-x-3 sm:space-x-4">
+                <div class="glass px-3 py-1.5 rounded-lg flex items-center space-x-2 text-indigo-300 font-semibold text-sm border border-indigo-500/20">
+                    <i class="fa-solid fa-user text-indigo-400"></i>
+                    <span id="header-nickname">Khách</span>
+                </div>
+                <div class="glass px-3 py-1.5 rounded-lg flex items-center space-x-2 text-amber-400 font-semibold text-sm border border-amber-500/20 hover:scale-105 transition">
+                    <i class="fa-solid fa-coins"></i>
+                    <span id="header-points">500</span> xu
+                </div>
+                <div class="glass px-3 py-1.5 rounded-lg flex items-center space-x-2 text-indigo-400 font-semibold text-sm border border-indigo-500/20 hover:scale-105 transition">
+                    <i class="fa-solid fa-fire"></i>
+                    <span id="header-streak">0</span> chuỗi
+                </div>
+                <button onclick="toggleMusicModal()" class="glass px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 hover:scale-105 transition flex items-center space-x-2 text-sm border border-slate-700" title="Nhạc nền Lofi">
+                    <i class="fa-solid fa-music text-purple-400 animate-pulse"></i>
+                    <span class="hidden md:inline">Nhạc Lofi</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-4xl w-full mx-auto p-4 sm:p-6 flex-grow my-auto space-y-6">
+
+        <!-- AUTH SCREEN (LOGIN / REGISTER WITH PASSWORD & DISPLAY NAME) -->
+        <div id="screen-auth" class="glass-card rounded-2xl p-6 sm:p-10 shadow-2xl max-w-md mx-auto space-y-6">
+            <div class="text-center space-y-2">
+                <div class="inline-block p-4 rounded-3xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 mb-2 glow-effect">
+                    <i class="fa-solid fa-user-lock text-4xl"></i>
+                </div>
+                <h2 id="auth-title" class="text-2xl font-extrabold text-white">Đăng Nhập Tài Khoản</h2>
+                <p id="auth-subtitle" class="text-slate-400 text-xs">Nhập Nickname và mật khẩu của bạn để đồng bộ tiến trình học tập</p>
+            </div>
+
+            <!-- Tab Switcher -->
+            <div class="flex rounded-xl bg-slate-900/80 p-1 border border-slate-700/60">
+                <button onclick="switchAuthTab('login')" id="tab-login-btn" class="flex-1 py-2 rounded-lg text-xs font-bold text-white bg-indigo-600 transition shadow">Đăng Nhập</button>
+                <button onclick="switchAuthTab('register')" id="tab-register-btn" class="flex-1 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">Đăng Ký Mới</button>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Nickname (Tên tài khoản duy nhất):</label>
+                    <input type="text" id="auth-nickname-input" placeholder="Tên đăng nhập" class="w-full glass px-4 py-3 rounded-xl text-slate-100 border border-slate-700 focus:outline-none focus:border-indigo-500 text-sm">
+                </div>
+                <!-- Display Name Field for Registration -->
+                <div id="auth-displayname-group" class="hidden">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Tên hiển thị:</label>
+                    <input type="text" id="auth-displayname-input" placeholder="Nhập tên của bạn" class="w-full glass px-4 py-3 rounded-xl text-slate-100 border border-slate-700 focus:outline-none focus:border-indigo-500 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Mật khẩu:</label>
+                    <input type="password" id="auth-password-input" placeholder="Nhập mật khẩu" class="w-full glass px-4 py-3 rounded-xl text-slate-100 border border-slate-700 focus:outline-none focus:border-indigo-500 text-sm">
+                </div>
+                <button id="auth-submit-btn" onclick="handleUserAuth()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-sm soft-shadow-button transition">
+                    Đăng Nhập
+                </button>
+            </div>
+        </div>
+
+        <!-- WELCOME SCREEN -->
+        <div id="screen-welcome" class="hidden glass-card rounded-2xl p-6 sm:p-10 shadow-2xl transition-all duration-300">
+            <div class="text-center max-w-2xl mx-auto space-y-6">
+                <div class="inline-block p-4 rounded-3xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 mb-2 glow-effect hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-microscope text-5xl"></i>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Công Nghệ Gene</h2>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                    Hệ thống tích hợp <span class="text-indigo-400 font-bold">136 câu hỏi</span> chuẩn thang điểm BGD (10.0 điểm max). Giới hạn <span class="text-amber-400 font-semibold">tối đa 1 quyền trợ giúp / câu hỏi</span> và bảng so sánh điểm với bạn bè!
+                </p>
+
+                <!-- Features Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left my-6">
+                    <div class="glass p-4 rounded-xl border border-slate-700/50 hover:border-indigo-500/50 hover:scale-105 transition">
+                        <i class="fa-solid fa-bolt text-amber-400 text-lg mb-2"></i>
+                        <h4 class="font-semibold text-white text-sm">Tóm Tắt Đề</h4>
+                        <p class="text-xs text-slate-400 mt-1">Lược bỏ bớt từ thừa, chỉ giữ nguyên từ khóa chính để đọc nhanh.</p>
+                    </div>
+                    <div class="glass p-4 rounded-xl border border-slate-700/50 hover:border-indigo-500/50 hover:scale-105 transition">
+                        <i class="fa-solid fa-shield-halved text-blue-400 text-lg mb-2"></i>
+                        <h4 class="font-semibold text-white text-sm">Lá Chắn Bảo Vệ</h4>
+                        <p class="text-xs text-slate-400 mt-1">Hủy rủi ro bị trừ điểm & ngắt chuỗi combo khi chọn sai.</p>
+                    </div>
+                    <div class="glass p-4 rounded-xl border border-slate-700/50 hover:border-indigo-500/50 hover:scale-105 transition">
+                        <i class="fa-solid fa-users text-emerald-400 text-lg mb-2"></i>
+                        <h4 class="font-semibold text-white text-sm">So Sánh Bè Bạn</h4>
+                        <p class="text-xs text-slate-400 mt-1">Xem bảng xếp hạng nickname & lưu tiến trình cho lần sau.</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
+                    <button onclick="startQuiz()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-base soft-shadow-button flex items-center justify-center space-x-3">
+                        <span>Bắt đầu làm bài 136 câu</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <button onclick="openLeaderboardModal()" class="w-full sm:w-auto px-6 py-4 rounded-xl glass hover:bg-slate-800/80 text-slate-200 font-semibold text-base transition flex items-center justify-center space-x-2 border border-slate-700 hover:border-emerald-500/50">
+                        <i class="fa-solid fa-ranking-star text-emerald-400"></i>
+                        <span>Bảng Xếp Hạng & Bạn Bè</span>
+                    </button>
+                    <button onclick="openShopModal()" class="w-full sm:w-auto px-6 py-4 rounded-xl glass hover:bg-slate-800/80 text-slate-200 font-semibold text-base transition flex items-center justify-center space-x-2 border border-slate-700 hover:border-amber-500/50">
+                        <i class="fa-solid fa-store text-amber-400"></i>
+                        <span>Cửa hàng</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ SCREEN -->
+        <div id="screen-quiz" class="hidden space-y-6">
+            <!-- Top bar status -->
+            <div class="glass rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center space-x-3">
+                    <span id="question-progress-badge" class="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 font-bold text-xs uppercase tracking-wider border border-indigo-500/30">
+                        Câu 1 / 136
+                    </span>
+                    <span id="question-type-badge" class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 font-semibold text-xs border border-purple-500/30">
+                        Trắc nghiệm nhiều lựa chọn
+                    </span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2 text-slate-300 text-sm font-medium">
+                        <i class="fa-regular fa-clock text-indigo-400"></i>
+                        <span id="timer-display">00:00</span>
+                    </div>
+                    <div class="flex items-center space-x-1.5 text-amber-400 font-bold text-sm">
+                        <i class="fa-solid fa-star"></i>
+                        <span id="current-score-display">0.00</span> / 10.00 đ
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Power-ups Bar -->
+            <div class="grid grid-cols-4 sm:grid-cols-4 gap-2 sm:gap-3">
+                <button onclick="usePowerUp('shield')" id="btn-power-shield" class="powerup-btn glass p-2.5 rounded-xl flex flex-col items-center justify-center text-xs text-slate-300 hover:text-white transition relative group border border-slate-700">
+                    <i class="fa-solid fa-shield-halved text-blue-400 text-base mb-1 group-hover:scale-125 transition"></i>
+                    <span>Lá Chắn</span>
+                    <span id="count-shield" class="absolute -top-1.5 -right-1.5 bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold shadow">3</span>
+                </button>
+                <button onclick="usePowerUp('fifty')" id="btn-power-fifty" class="powerup-btn glass p-2.5 rounded-xl flex flex-col items-center justify-center text-xs text-slate-300 hover:text-white transition relative group border border-slate-700">
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400 text-base mb-1 group-hover:scale-125 transition"></i>
+                    <span>50:50</span>
+                    <span id="count-fifty" class="absolute -top-1.5 -right-1.5 bg-amber-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold shadow">3</span>
+                </button>
+                <button onclick="usePowerUp('hint')" id="btn-power-hint" class="powerup-btn glass p-2.5 rounded-xl flex flex-col items-center justify-center text-xs text-slate-300 hover:text-white transition relative group border border-slate-700">
+                    <i class="fa-solid fa-lightbulb text-yellow-400 text-base mb-1 group-hover:scale-125 transition"></i>
+                    <span>Gợi Ý</span>
+                    <span id="count-hint" class="absolute -top-1.5 -right-1.5 bg-yellow-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold shadow">3</span>
+                </button>
+                <button onclick="usePowerUp('keyword')" id="btn-power-keyword" class="powerup-btn glass p-2.5 rounded-xl flex flex-col items-center justify-center text-xs text-slate-300 hover:text-white transition relative group border border-slate-700">
+                    <i class="fa-solid fa-align-left text-emerald-400 text-base mb-1 group-hover:scale-125 transition"></i>
+                    <span>Tóm Tắt Đề</span>
+                    <span id="count-keyword" class="absolute -top-1.5 -right-1.5 bg-emerald-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold shadow">3</span>
+                </button>
+            </div>
+
+            <!-- Question Card -->
+            <div class="glass-card rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl relative overflow-hidden">
+                <div id="active-shield-banner" class="hidden bg-blue-500/20 border border-blue-500/40 text-blue-300 px-4 py-2 rounded-xl text-xs flex items-center space-x-2">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Đã kích hoạt Lá Chắn! Bạn sẽ không bị trừ điểm hoặc mất chuỗi nếu trả lời sai câu này.</span>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 id="question-title" class="text-lg sm:text-xl font-bold text-white leading-snug">
+                        Đang tải câu hỏi...
+                    </h3>
+                </div>
+
+                <div id="answers-container" class="space-y-3"></div>
+
+                <div id="hint-box" class="hidden p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/30 text-yellow-200 text-sm space-y-1">
+                    <div class="font-bold flex items-center space-x-2"><i class="fa-solid fa-lightbulb"></i><span>Gợi ý cốt lõi:</span></div>
+                    <p id="hint-text"></p>
+                </div>
+
+                <div id="explanation-box" class="hidden p-5 rounded-xl border space-y-3 transition-all duration-300">
+                    <div id="explanation-header" class="font-bold text-base flex items-center space-x-2"></div>
+                    <p id="explanation-text" class="text-sm sm:text-base leading-relaxed text-slate-200"></p>
+                </div>
+
+                <div class="flex justify-between items-center pt-4 border-t border-slate-800">
+                    <button onclick="quitQuiz()" class="text-slate-400 hover:text-slate-200 text-sm font-medium transition flex items-center space-x-2 hover:scale-105">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Thoát</span>
+                    </button>
+                    <button id="btn-next-question" onclick="nextQuestion()" class="hidden px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition shadow-lg shadow-indigo-600/30 flex items-center space-x-2 hover:scale-105">
+                        <span>Câu tiếp theo</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUMMARY / REPORT SCREEN -->
+        <div id="screen-summary" class="hidden glass-card rounded-2xl p-6 sm:p-10 shadow-2xl space-y-8">
+            <div class="text-center space-y-4">
+                <div class="inline-block p-4 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 animate-bounce">
+                    <i class="fa-solid fa-trophy text-4xl"></i>
+                </div>
+                <h2 class="text-3xl font-extrabold text-white">Hoàn Thành Đợt Ôn Luyện!</h2>
+                <p class="text-slate-300 text-sm">Tiến trình và kết quả đã được tự động lưu vào hệ thống cho Nickname của bạn</p>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div class="glass p-4 rounded-xl text-center border border-slate-700/50 hover:scale-105 transition">
+                    <div class="text-xs text-slate-400 mb-1">Điểm thi THPT QG</div>
+                    <div id="summary-total-score" class="text-2xl font-extrabold text-amber-400">0.00 / 10</div>
+                </div>
+                <div class="glass p-4 rounded-xl text-center border border-slate-700/50 hover:scale-105 transition">
+                    <div class="text-xs text-slate-400 mb-1">Tỷ lệ chính xác</div>
+                    <div id="summary-accuracy" class="text-2xl font-extrabold text-emerald-400">0%</div>
+                </div>
+                <div class="glass p-4 rounded-xl text-center border border-slate-700/50 hover:scale-105 transition">
+                    <div class="text-xs text-slate-400 mb-1">Số câu hoàn thành</div>
+                    <div id="summary-correct-count" class="text-2xl font-extrabold text-indigo-400">0/136</div>
+                </div>
+                <div class="glass p-4 rounded-xl text-center border border-slate-700/50 hover:scale-105 transition">
+                    <div class="text-xs text-slate-400 mb-1">Thời gian làm bài</div>
+                    <div id="summary-time" class="text-2xl font-extrabold text-purple-400">00:00</div>
+                </div>
+            </div>
+
+            <!-- Detailed Breakdown by Question Type -->
+            <div class="glass p-6 rounded-xl space-y-4 border border-slate-700/50">
+                <h4 class="font-bold text-white text-base flex items-center space-x-2">
+                    <i class="fa-solid fa-chart-pie text-indigo-400"></i>
+                    <span>Kết quả theo dạng câu hỏi</span>
+                </h4>
+                <div id="breakdown-container" class="space-y-3"></div>
+            </div>
+
+            <!-- Error Diagnosis & Recommendations -->
+            <div class="glass p-6 rounded-xl space-y-3 border border-slate-700/50 bg-slate-900/50">
+                <h4 class="font-bold text-white text-base flex items-center space-x-2">
+                    <i class="fa-solid fa-stethoscope text-emerald-400"></i>
+                    <span>Chỉ ra chỗ cần sửa & Hướng dẫn ôn tập</span>
+                </h4>
+                <div id="diagnosis-text" class="text-sm text-slate-300 leading-relaxed"></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
+                <button onclick="restartQuiz()" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-base soft-shadow-button transition flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Làm lại (Tự động đảo câu hỏi)</span>
+                </button>
+                <button onclick="openLeaderboardModal()" class="w-full sm:w-auto px-6 py-3.5 rounded-xl glass hover:bg-slate-800 text-slate-200 font-semibold text-base transition flex items-center justify-center space-x-2 border border-slate-700 hover:scale-105">
+                    <i class="fa-solid fa-ranking-star text-emerald-400"></i>
+                    <span>Xem Bảng Xếp Hạng</span>
+                </button>
+                <button onclick="returnToHome()" class="w-full sm:w-auto px-6 py-3.5 rounded-xl glass hover:bg-slate-800 text-slate-200 font-semibold text-base transition flex items-center justify-center space-x-2 border border-slate-700 hover:scale-105">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Về trang chủ</span>
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- CUSTOM ALERT MODAL -->
+    <div id="custom-alert-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div class="glass-card max-w-sm w-full rounded-2xl p-6 space-y-4 shadow-2xl border border-slate-700 text-center">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 mb-1">
+                <i class="fa-solid fa-bell text-xl"></i>
+            </div>
+            <h3 id="custom-alert-title" class="font-bold text-lg text-white">Thông Báo</h3>
+            <p id="custom-alert-message" class="text-sm text-slate-300 leading-relaxed"></p>
+            <button onclick="closeCustomAlert()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition shadow-lg shadow-indigo-600/30">
+                Đã hiểu
+            </button>
+        </div>
+    </div>
+
+    <!-- LEADERBOARD & FRIEND COMPARISON MODAL -->
+    <div id="leaderboard-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div class="glass-card max-w-lg w-full rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl border border-slate-700 relative">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
+                        <i class="fa-solid fa-ranking-star text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-white">Bảng Xếp Hạng & So Sánh Bạn Bè</h3>
+                        <p class="text-xs text-slate-400">Thống kê điểm số và thành tích của tất cả thành viên</p>
+                    </div>
+                </div>
+                <button onclick="closeLeaderboardModal()" class="text-slate-400 hover:text-white text-lg p-2 hover:scale-110 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Rankings List -->
+            <div id="leaderboard-list" class="space-y-2.5 max-h-72 overflow-y-auto pr-1"></div>
+
+            <div class="text-center pt-2">
+                <button onclick="closeLeaderboardModal()" class="w-full py-2.5 rounded-xl glass hover:bg-slate-800 text-slate-200 font-semibold text-sm transition border border-slate-700">
+                    Đóng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SHOP MODAL -->
+    <div id="shop-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div class="glass-card max-w-lg w-full rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl border border-slate-700 relative">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center border border-amber-500/30">
+                        <i class="fa-solid fa-store text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-white">Cửa hàng Trợ Giúp</h3>
+                        <p class="text-xs text-slate-400">Đổi xu tích lũy để mua thêm lượt hỗ trợ</p>
+                    </div>
+                </div>
+                <button onclick="closeShopModal()" class="text-slate-400 hover:text-white text-lg p-2 hover:scale-110 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="glass p-4 rounded-xl flex items-center justify-between border border-slate-700/50">
+                <span class="text-sm text-slate-300 font-medium">Xu hiện có:</span>
+                <span id="shop-points-display" class="text-amber-400 font-bold text-lg flex items-center space-x-1.5">
+                    <i class="fa-solid fa-coins"></i>
+                    <span>500</span>
+                </span>
+            </div>
+
+            <div class="space-y-3 max-h-64 overflow-y-auto pr-1">
+                <div class="glass p-3.5 rounded-xl flex items-center justify-between border border-slate-700/50 hover:border-indigo-500/50 transition">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white text-sm">Lá Chắn (+3 lượt)</h4>
+                            <p class="text-xs text-slate-400">Không bị trừ điểm khi sai</p>
+                        </div>
+                    </div>
+                    <button onclick="buyItem('shield', 120)" class="px-3.5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center space-x-1.5 shadow hover:scale-105">
+                        <i class="fa-solid fa-coins text-amber-300"></i>
+                        <span>120 xu</span>
+                    </button>
+                </div>
+
+                <div class="glass p-3.5 rounded-xl flex items-center justify-between border border-slate-700/50 hover:border-indigo-500/50 transition">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white text-sm">50:50 (+3 lượt)</h4>
+                            <p class="text-xs text-slate-400">Loại bỏ 2 phương án sai</p>
+                        </div>
+                    </div>
+                    <button onclick="buyItem('fifty', 100)" class="px-3.5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center space-x-1.5 shadow hover:scale-105">
+                        <i class="fa-solid fa-coins text-amber-300"></i>
+                        <span>100 xu</span>
+                    </button>
+                </div>
+
+                <div class="glass p-3.5 rounded-xl flex items-center justify-between border border-slate-700/50 hover:border-indigo-500/50 transition">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 rounded-lg bg-yellow-500/20 text-yellow-400 flex items-center justify-center">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white text-sm">Gợi Ý (+3 lượt)</h4>
+                            <p class="text-xs text-slate-400">Xem kiến thức gợi ý</p>
+                        </div>
+                    </div>
+                    <button onclick="buyItem('hint', 80)" class="px-3.5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center space-x-1.5 shadow hover:scale-105">
+                        <i class="fa-solid fa-coins text-amber-300"></i>
+                        <span>80 xu</span>
+                    </button>
+                </div>
+
+                <div class="glass p-3.5 rounded-xl flex items-center justify-between border border-slate-700/50 hover:border-indigo-500/50 transition">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                            <i class="fa-solid fa-align-left"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white text-sm">Tóm Tắt Đề (+3 lượt)</h4>
+                            <p class="text-xs text-slate-400">Chỉ giữ từ khóa chính</p>
+                        </div>
+                    </div>
+                    <button onclick="buyItem('keyword', 150)" class="px-3.5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center space-x-1.5 shadow hover:scale-105">
+                        <i class="fa-solid fa-coins text-amber-300"></i>
+                        <span>150 xu</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="text-center pt-2">
+                <button onclick="closeShopModal()" class="w-full py-2.5 rounded-xl glass hover:bg-slate-800 text-slate-200 font-semibold text-sm transition border border-slate-700">
+                    Đóng cửa hàng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MUSIC PLAYER MODAL (LOFI LOCAL SYNTH / AUDIO PLAYER) -->
+    <div id="music-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div class="glass-card max-w-sm w-full rounded-2xl p-6 space-y-5 shadow-2xl border border-slate-700 relative">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center border border-purple-500/30">
+                        <i class="fa-solid fa-music text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-white">Nhạc Nền Lofi</h3>
+                        <p class="text-xs text-slate-400">Thư giãn khi giải đề</p>
+                    </div>
+                </div>
+                <button onclick="toggleMusicModal()" class="text-slate-400 hover:text-white text-lg p-2 hover:scale-110 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-2">Chọn giai điệu Lofi:</label>
+                    <select id="preset-lofi" onchange="changeLofiTrack(this.value)" class="w-full glass px-4 py-2.5 rounded-xl text-sm text-slate-200 border border-slate-700 focus:outline-none focus:border-indigo-500">
+                        <option value="chill">Lofi Chill Beats</option>
+                        <option value="focus">Deep Focus Ambient</option>
+                        <option value="none">Tắt nhạc nền</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="text-center pt-2">
+                <button onclick="toggleMusicModal()" class="w-full py-2.5 rounded-xl glass hover:bg-slate-800 text-slate-200 font-semibold text-sm transition border border-slate-700">
+                    Đóng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUDIO & LOGIC SCRIPTS -->
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let authMode = 'login'; // 'login' or 'register'
+
+        // Local Storage DB for Users
+        let allUsersData = JSON.parse(localStorage.getItem('biogene_users_db') || '{}');
+        let currentUser = null;
+        let score = 500;
+        let powerUps = { shield: 3, fifty: 3, hint: 3, keyword: 3 };
+
+        let questions = [];
+        let currentIndex = 0;
+        let rawWeightedPoints = 0;
+        let streak = 0;
+        let timerSeconds = 0;
+        let timerInterval = null;
+        let isShieldActive = false;
+        let powerUpUsedThisQuestion = false;
+        let answeredCurrent = false;
+        let stats = { correct: 0, wrong: 0, byType: { multiple: {correct:0, total:0}, truefalse: {correct:0, total:0}, short: {correct:0, total:0} } };
+
+        // Custom Alert Helper replacing standard alert()
+        function showCustomAlert(message, title = "Thông Báo") {
+            document.getElementById('custom-alert-title').innerText = title;
+            document.getElementById('custom-alert-message').innerText = message;
+            document.getElementById('custom-alert-modal').classList.remove('hidden');
+        }
+
+        function closeCustomAlert() {
+            document.getElementById('custom-alert-modal').classList.add('hidden');
+        }
+
+        // Web Audio Sound FX & Lofi Synth Synthesizer
+        let lofiInterval = null;
+        let lofiActiveMode = 'none';
+
+        function playSound(type) {
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(440, now);
+                osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.linearRampToValueAtTime(130, now + 0.2);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'powerup' || type === 'click') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(587.33, now);
+                osc.frequency.exponentialRampToValueAtTime(880, now + 0.1);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                osc.start(now);
+                osc.stop(now + 0.15);
+            }
+        }
+
+        function changeLofiTrack(mode) {
+            lofiActiveMode = mode;
+            if (lofiInterval) {
+                clearInterval(lofiInterval);
+                lofiInterval = null;
+            }
+            if (mode === 'none') return;
+
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const chords = mode === 'chill' ? 
+                [[261.63, 329.63, 392.00], [220.00, 261.63, 329.63], [174.61, 220.00, 261.63], [196.00, 246.94, 293.66]] :
+                [[130.81, 196.00, 246.94], [110.00, 164.81, 220.00], [98.00, 146.83, 196.00], [116.54, 174.61, 220.00]];
+
+            let step = 0;
+            lofiInterval = setInterval(() => {
+                if (lofiActiveMode === 'none') return;
+                const chord = chords[step % chords.length];
+                step++;
+
+                chord.forEach((freq, i) => {
+                    setTimeout(() => {
+                        if (!audioCtx || lofiActiveMode === 'none') return;
+                        const now = audioCtx.currentTime;
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, now);
+                        gain.gain.setValueAtTime(0.03, now);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + 2.2);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start(now);
+                        osc.stop(now + 2.2);
+                    }, i * 150);
+                });
+            }, 3000);
+        }
+
+        const masterQuestions = [
+            {
+                type: 'multiple',
+                typeName: 'Trắc nghiệm nhiều lựa chọn',
+                question: 'Công nghệ tạo ra sinh vật có hệ gene bị biến đổi hoặc được bổ sung gene mới được gọi là gì?',
+                options: ['Công nghệ hóa sinh.', 'Công nghệ vi sinh vật.', 'Công nghệ enzyme.', 'Công nghệ gene.'],
+                correctIndex: 3,
+                keywordSummary: 'Khái niệm công nghệ gene.',
+                hint: 'Công nghệ liên quan trực tiếp đến hệ gene, biến đổi hoặc bổ sung gene.',
+                explanation: 'Công nghệ gene là quy trình công nghệ tạo ra các tế bào hoặc sinh vật có gene bị biến đổi hoặc được bổ sung gene mới.'
+            },
+            {
+                type: 'multiple',
+                typeName: 'Trắc nghiệm nhiều lựa chọn',
+                question: 'Bằng phương pháp nhân bản vô tính, từ cừu cho trứng có kiểu gene DDEe và cừu cho nhân tế bào có kiểu gene DdEe có thể tạo ra cừu con có kiểu gene nào?',
+                options: ['DdEe', 'DDEe', 'DDee', 'DDEE'],
+                correctIndex: 1,
+                keywordSummary: 'Nhân bản vô tính kiểu gene cừu con.',
+                hint: 'Cừu con sinh ra từ nhân tế bào sinh dưỡng nào?',
+                explanation: 'Cừu con nhận toàn bộ vật chất di truyền trong nhân từ tế bào cho nhân (có kiểu gene DDEe), do đó cừu con có kiểu gene DDEe.'
+            },
+            {
+                type: 'multiple',
+                typeName: 'Trắc nghiệm nhiều lựa chọn',
+                question: 'Trong kỹ thuật cấy gene sản xuất chế phẩm sinh học quy mô công nghiệp, tế bào nhận được dùng phổ biến là vi khuẩn E.coli vì:',
+                options: [
+                    'E.coli có tần số phát sinh đột biến gây hại cao.',
+                    'môi trường dinh dưỡng nuôi E.coli rất phức tạp.',
+                    'E.coli không mẫn cảm với thuốc kháng sinh.',
+                    'E.coli có tốc độ sinh sản nhanh.'
+                ],
+                correctIndex: 3,
+                keywordSummary: 'Ưu điểm E.coli làm tế bào nhận.',
+                hint: 'Vi khuẩn sinh sản rất nhanh giúp tạo dòng tế bào nhanh chóng.',
+                explanation: 'E.coli được dùng phổ biến vì có tốc độ sinh sản cực kỳ nhanh, giúp nhân nhanh số lượng gene và sản phẩm protein tái tổ hợp.'
+            },
+            {
+                type: 'multiple',
+                typeName: 'Trắc nghiệm nhiều lựa chọn',
+                question: 'Trong công nghệ gene, thể truyền (vector) phổ biến là:',
+                options: ['Virus hoặc plasmid.', 'Virus hoặc vi khuẩn.', 'Một phân tử DNA hoặc RNA.', 'Vi khuẩn hoặc nấm men.'],
+                correctIndex: 0,
+                keywordSummary: 'Thể truyền là plasmid hoặc virus.',
+                hint: 'Các thể truyền thường dùng chứa DNA tự nhân bản.',
+                explanation: 'Plasmid và virus là hai loại thể truyền (vector) được sử dụng phổ biến nhất trong công nghệ DNA tái tổ hợp.'
+            },
+            {
+                type: 'multiple',
+                typeName: 'Trắc nghiệm nhiều lựa chọn',
+                question: 'Trong công nghệ DNA tái tổ hợp, enzyme cắt giới hạn Restrictase được dùng để:',
+                options: [
+                    'nối gene cần chuyển vào vector tạo DNA tái tổ hợp.',
+                    'nhận biết dòng tế bào nhận mang DNA tái tổ hợp.',
+                    'làm giãn màng sinh chất của tế bào nhận.',
+                    'tạo đầu nối giữa vector và gene cần chuyển.'
+                ],
+                correctIndex: 3,
+                keywordSummary: 'Vai trò enzyme Restrictase.',
+                hint: 'Restrictase có tác dụng cắt DNA tại các trình tự nucleotide đặc hiệu.',
+                explanation: 'Enzyme cắt giới hạn Restrictase nhận biết và cắt DNA tại các trình tự nucleotide đặc hiệu, tạo các đầu dính phù hợp.'
+            },
+            {
+                type: 'multiple',
+                typeName: 'Trắc nghiệm nhiều lựa chọn',
+                question: 'Trong quy trình tách chiết DNA, chất tẩy rửa được sử dụng nhằm mục đích:',
+                options: ['phá huỷ màng tế bào.', 'phân giải RNA.', 'phân giải protein.', 'kết tủa DNA.'],
+                correctIndex: 0,
+                keywordSummary: 'Chất tẩy rửa trong tách chiết DNA.',
+                hint: 'Chất tẩy rửa hòa tan lớp lipid của màng.',
+                explanation: 'Chất tẩy rửa (như nước rửa chén) làm tan màng sinh chất và màng nhân, giúp giải phóng DNA ra khỏi tế bào.'
+            },
+            {
+                type: 'multiple',
+                typeName: 'Trắc nghiệm nhiều lựa chọn',
+                question: 'Vi khuẩn E.coli sản xuất insulin của người là thành quả của:',
+                options: ['Dùng kỹ thuật vi tiêm', 'Gây đột biến nhân tạo', 'Công nghệ DNA tái tổ hợp.', 'Lai hai tế bào xoma'],
+                correctIndex: 2,
+                keywordSummary: 'E.coli sản xuất insulin nhờ DNA tái tổ hợp.',
+                hint: 'Chèn gene insulin người vào plasmid vi khuẩn.',
+                explanation: 'Việc chuyển gene insulin của người vào vi khuẩn E.coli nhờ plasmid là thành tựu nổi bật của công nghệ DNA tái tổ hợp.'
+            },
+            {
+                type: 'multiple',
+                typeName: 'Trắc nghiệm nhiều lựa chọn',
+                question: 'Ddung dịch nào sau đây được dùng để gây kết tủa DNA trong ống nghiệm?',
+                options: ['Nước cất.', 'Nước rửa bát.', 'Ethanol 90° lạnh.', 'Nước chiết quả dứa tươi.'],
+                correctIndex: 2,
+                keywordSummary: 'Dùng ethanol lạnh kết tủa DNA.',
+                hint: 'Cồn lạnh làm DNA nổi lên thành sợi màu trắng đục.',
+                explanation: 'Ethanol lạnh (cồn 90°) được sử dụng để làm kết tủa các phân tử DNA, khiến chúng gom lại thành các sợi trắng đục có thể nhìn thấy.'
+            },
+            {
+                type: 'multiple',
+                typeName: 'Trắc nghiệm nhiều lựa chọn',
+                question: 'Loại enzyme nào sau đây có vai trò nối các đoạn DNA trong công nghệ DNA tái tổ hợp?',
+                options: ['Lipase.', 'Restrictase.', 'Protease.', 'Ligase.'],
+                correctIndex: 3,
+                keywordSummary: 'Enzyme Ligase nối DNA.',
+                hint: 'Enzyme "keo dán" mạch DNA.',
+                explanation: 'Enzyme DNA ligase tạo liên kết phosphodiester để hàn gắn mạch DNA, nối gene cần chuyển vào plasmid tạo DNA tái tổ hợp hoàn chỉnh.'
+            },
+            {
+                type: 'multiple',
+                typeName: 'Trắc nghiệm nhiều lựa chọn',
+                question: 'Giống cây trồng nào sau đây đã được tạo ra nhờ thành tựu của công nghệ gene?',
+                options: ['Giống lúa IR22.', 'Giống lúa “gạo vàng” tổng hợp β-caroten.', 'Giống dưa hấu tam bội.', 'Giống dâu tằm tam bội.'],
+                correctIndex: 1,
+                keywordSummary: 'Lúa gạo vàng tổng hợp beta-caroten.',
+                hint: 'Giống lúa được bổ sung gene tổng hợp tiền chất vitamin A.',
+                explanation: 'Giống lúa gạo vàng (Golden rice) được chuyển gene tổng hợp beta-caroten (tiền chất vitamin A) là thành tựu của công nghệ gene.'
+            }
+        ];
+
+        function switchAuthTab(mode) {
+            authMode = mode;
+            const title = document.getElementById('auth-title');
+            const sub = document.getElementById('auth-subtitle');
+            const btn = document.getElementById('auth-submit-btn');
+            const loginBtn = document.getElementById('tab-login-btn');
+            const regBtn = document.getElementById('tab-register-btn');
+            const displayNameGroup = document.getElementById('auth-displayname-group');
+
+            if (mode === 'login') {
+                title.innerText = "Đăng Nhập Tài Khoản";
+                sub.innerText = "Nhập Nickname và mật khẩu của bạn để tiếp tục tiến trình";
+                btn.innerText = "Đăng Nhập";
+                loginBtn.className = "flex-1 py-2 rounded-lg text-xs font-bold text-white bg-indigo-600 transition shadow";
+                regBtn.className = "flex-1 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+                displayNameGroup.classList.add('hidden');
+            } else {
+                title.innerText = "Đăng Ký Tài Khoản Mới";
+                sub.innerText = "Tạo Nickname, tên hiển thị & mật khẩu bảo vệ điểm số";
+                btn.innerText = "Đăng Ký Ngay";
+                regBtn.className = "flex-1 py-2 rounded-lg text-xs font-bold text-white bg-indigo-600 transition shadow";
+                loginBtn.className = "flex-1 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+                displayNameGroup.classList.remove('hidden');
+            }
+        }
+
+        function handleUserAuth() {
+            const nicknameInput = document.getElementById('auth-nickname-input');
+            const passwordInput = document.getElementById('auth-password-input');
+            const displayNameInput = document.getElementById('auth-displayname-input');
+            
+            const nickname = nicknameInput.value.trim();
+            const password = passwordInput.value.trim();
+            const displayName = displayNameInput.value.trim();
+
+            if (!nickname || !password) {
+                showCustomAlert("Vui lòng điền đầy đủ Nickname và Mật khẩu!");
+                return;
+            }
+
+            if (authMode === 'register') {
+                if (!displayName) {
+                    showCustomAlert("Vui lòng nhập Tên hiển thị!");
+                    return;
+                }
+                if (allUsersData[nickname]) {
+                    showCustomAlert("Nickname tài khoản này đã tồn tại! Vui lòng chọn tên khác.");
+                    return;
+                }
+                // Create user
+                allUsersData[nickname] = {
+                    password: password,
+                    displayName: displayName,
+                    coins: 500,
+                    powerUps: { shield: 3, fifty: 3, hint: 3, keyword: 3 },
+                    bestScore: 0,
+                    totalCompleted: 0
+                };
+                currentUser = nickname;
+                localStorage.setItem('biogene_users_db', JSON.stringify(allUsersData));
+                showCustomAlert("Đăng ký tài khoản thành công!");
+            } else {
+                // Login
+                if (!allUsersData[nickname] || allUsersData[nickname].password !== password) {
+                    showCustomAlert("Tài khoản hoặc mật khẩu không đúng!");
+                    return;
+                }
+                currentUser = nickname;
+            }
+
+            score = allUsersData[currentUser].coins || 500;
+            powerUps = { ...(allUsersData[currentUser].powerUps || { shield: 3, fifty: 3, hint: 3, keyword: 3 }) };
+
+            const displayTitle = allUsersData[currentUser].displayName || currentUser;
+            document.getElementById('header-nickname').innerText = displayTitle;
+            document.getElementById('screen-auth').classList.add('hidden');
+            document.getElementById('screen-welcome').classList.remove('hidden');
+            updateHeaderUI();
+        }
+
+        function saveUserData() {
+            if (!currentUser) return;
+            if (!allUsersData[currentUser]) return;
+            allUsersData[currentUser].coins = score;
+            allUsersData[currentUser].powerUps = { ...powerUps };
+            allUsersData[currentUser].bestScore = Math.max(allUsersData[currentUser].bestScore || 0, rawWeightedPoints);
+            localStorage.setItem('biogene_users_db', JSON.stringify(allUsersData));
+        }
+
+        function shuffleArray(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function startQuiz() {
+            playSound('click');
+            questions = shuffleArray(masterQuestions).map(q => {
+                let qCopy = JSON.parse(JSON.stringify(q));
+                if (qCopy.type === 'multiple' && qCopy.options) {
+                    const originalCorrect = qCopy.options[qCopy.correctIndex];
+                    qCopy.options = shuffleArray(qCopy.options);
+                    qCopy.correctIndex = qCopy.options.indexOf(originalCorrect);
+                }
+                return qCopy;
+            });
+
+            currentIndex = 0;
+            rawWeightedPoints = 0;
+            streak = 0;
+            timerSeconds = 0;
+            stats = {
+                correct: 0,
+                wrong: 0,
+                byType: {
+                    multiple: { correct: 0, total: 0 },
+                    truefalse: { correct: 0, total: 0 },
+                    short: { correct: 0, total: 0 }
+                }
+            };
+
+            document.getElementById('screen-welcome').classList.add('hidden');
+            document.getElementById('screen-summary').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+
+            startTimer();
+            updateHeaderUI();
+            renderQuestion();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+                const secs = String(timerSeconds % 60).padStart(2, '0');
+                document.getElementById('timer-display').innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function updateHeaderUI() {
+            document.getElementById('header-points').innerText = score;
+            document.getElementById('header-streak').innerText = streak;
+            document.getElementById('current-score-display').innerText = rawWeightedPoints.toFixed(2);
+
+            document.getElementById('count-shield').innerText = powerUps.shield;
+            document.getElementById('count-fifty').innerText = powerUps.fifty;
+            document.getElementById('count-hint').innerText = powerUps.hint;
+            document.getElementById('count-keyword').innerText = powerUps.keyword;
+
+            const shopPoints = document.getElementById('shop-points-display');
+            if (shopPoints) shopPoints.innerHTML = `<i class="fa-solid fa-coins"></i><span>${score}</span>`;
+        }
+
+        function setPowerUpButtonsState(disabled) {
+            const ids = ['btn-power-shield', 'btn-power-fifty', 'btn-power-hint', 'btn-power-keyword'];
+            ids.forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.disabled = disabled;
+            });
+        }
+
+        function renderQuestion() {
+            answeredCurrent = false;
+            powerUpUsedThisQuestion = false;
+            setPowerUpButtonsState(false);
+
+            const q = questions[currentIndex];
+
+            document.getElementById('question-progress-badge').innerText = `Câu ${currentIndex + 1} / ${questions.length}`;
+            document.getElementById('question-type-badge').innerText = q.typeName;
+            document.getElementById('question-title').innerText = `[Câu ${currentIndex + 1}] ${q.question}`;
+
+            document.getElementById('hint-box').classList.add('hidden');
+            document.getElementById('explanation-box').classList.add('hidden');
+            document.getElementById('btn-next-question').classList.add('hidden');
+
+            if (isShieldActive) {
+                document.getElementById('active-shield-banner').classList.remove('hidden');
+            } else {
+                document.getElementById('active-shield-banner').classList.add('hidden');
+            }
+
+            const container = document.getElementById('answers-container');
+            container.innerHTML = '';
+
+            if (q.type === 'multiple') {
+                q.options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = "option-btn w-full text-left p-4 rounded-xl glass hover:bg-slate-800/80 transition flex items-center justify-between border border-slate-700/60 font-medium text-sm sm:text-base text-slate-200 shadow-sm";
+                    btn.innerHTML = `<span>${opt}</span><i class="fa-regular fa-circle text-slate-500"></i>`;
+                    btn.onclick = () => checkMultipleAnswer(idx);
+                    container.appendChild(btn);
+                });
+            } else if (q.type === 'truefalse') {
+                const form = document.createElement('div');
+                form.className = "space-y-3";
+                q.statements.forEach((stmt, sIdx) => {
+                    const row = document.createElement('div');
+                    row.className = "glass p-4 rounded-xl border border-slate-700/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm";
+                    row.innerHTML = `
+                        <p class="text-sm text-slate-200 flex-grow">${sIdx + 1}. ${stmt.text}</p>
+                        <div class="flex items-center space-x-2 self-end sm:self-auto">
+                            <button onclick="selectTF(${sIdx}, true, this)" class="tf-btn-true px-4 py-1.5 rounded-lg border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 text-xs font-bold transition">Đúng</button>
+                            <button onclick="selectTF(${sIdx}, false, this)" class="tf-btn-false px-4 py-1.5 rounded-lg border border-rose-500/30 text-rose-400 hover:bg-rose-500/20 text-xs font-bold transition">Sai</button>
+                        </div>
+                    `;
+                    form.appendChild(row);
+                });
+                
+                const submitBtn = document.createElement('button');
+                submitBtn.className = "w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm soft-shadow-button transition mt-2";
+                submitBtn.innerText = "Xác nhận đáp án";
+                submitBtn.onclick = () => checkTFAnswers();
+                form.appendChild(submitBtn);
+                container.appendChild(form);
+                q.userAnswers = {};
+            } else if (q.type === 'short') {
+                const wrapper = document.createElement('div');
+                wrapper.className = "space-y-3";
+                wrapper.innerHTML = `
+                    <input type="text" id="short-answer-input" placeholder="Nhập đáp án của bạn..." class="w-full glass p-4 rounded-xl text-slate-100 border border-slate-700 focus:outline-none focus:border-indigo-500 text-sm sm:text-base">
+                    <button onclick="checkShortAnswer()" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm soft-shadow-button transition">Gửi đáp án</button>
+                `;
+                container.appendChild(wrapper);
+            }
+        }
+
+        function checkMultipleAnswer(selectedIdx) {
+            if (answeredCurrent) return;
+            answeredCurrent = true;
+            setPowerUpButtonsState(true);
+
+            const q = questions[currentIndex];
+            const isCorrect = (selectedIdx === q.correctIndex);
+            const buttons = document.querySelectorAll('.option-btn');
+
+            buttons.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === q.correctIndex) {
+                    btn.className = "w-full text-left p-4 rounded-xl bg-emerald-500/20 border border-emerald-500 text-emerald-300 font-semibold flex items-center justify-between text-sm sm:text-base";
+                    btn.innerHTML += `<i class="fa-solid fa-circle-check text-emerald-400"></i>`;
+                } else if (idx === selectedIdx && !isCorrect) {
+                    btn.className = "w-full text-left p-4 rounded-xl bg-rose-500/20 border border-rose-500 text-rose-300 font-semibold flex items-center justify-between text-sm sm:text-base";
+                    btn.innerHTML += `<i class="fa-solid fa-circle-xmark text-rose-400"></i>`;
+                }
+            });
+
+            const questionWeight = 10.0 / questions.length;
+            processAnswerResult(isCorrect, 'multiple', isCorrect ? questionWeight : 0);
+        }
+
+        function selectTF(sIdx, choice, btnEl) {
+            if (answeredCurrent) return;
+            const q = questions[currentIndex];
+            q.userAnswers[sIdx] = choice;
+
+            const parent = btnEl.parentElement;
+            parent.querySelectorAll('button').forEach(b => b.classList.remove('bg-emerald-500/40', 'bg-rose-500/40', 'ring-2', 'ring-indigo-400'));
+            if (choice) {
+                btnEl.classList.add('bg-emerald-500/40', 'ring-2', 'ring-indigo-400');
+            } else {
+                btnEl.classList.add('bg-rose-500/40', 'ring-2', 'ring-indigo-400');
+            }
+        }
+
+        function checkTFAnswers() {
+            if (answeredCurrent) return;
+            const q = questions[currentIndex];
+            if (Object.keys(q.userAnswers || {}).length < q.statements.length) {
+                showCustomAlert("Vui lòng chọn Đúng hoặc Sai cho tất cả 4 mệnh đề!");
+                return;
+            }
+            answeredCurrent = true;
+            setPowerUpButtonsState(true);
+
+            let correctCount = 0;
+            q.statements.forEach((stmt, sIdx) => {
+                if (q.userAnswers[sIdx] === stmt.isTrue) correctCount++;
+            });
+
+            let bgdScore = 0;
+            if (correctCount === 1) bgdScore = 0.1;
+            else if (correctCount === 2) bgdScore = 0.25;
+            else if (correctCount === 3) bgdScore = 0.5;
+            else if (correctCount === 4) bgdScore = 1.0;
+
+            const scaleFactor = (10.0 / questions.length);
+            const gainedBgdPoints = bgdScore * scaleFactor;
+            const isAllCorrect = (correctCount === 4);
+
+            processAnswerResult(isAllCorrect, 'truefalse', gainedBgdPoints, `Đúng ${correctCount}/4 mệnh đề (+${gainedBgdPoints.toFixed(2)}đ BGD)`);
+        }
+
+        function checkShortAnswer() {
+            if (answeredCurrent) return;
+            const input = document.getElementById('short-answer-input');
+            const val = input.value.trim().toLowerCase();
+            if (!val) return;
+
+            answeredCurrent = true;
+            setPowerUpButtonsState(true);
+            input.disabled = true;
+
+            const q = questions[currentIndex];
+            const isCorrect = (val === q.correctAnswer.toLowerCase());
+            const questionWeight = 10.0 / questions.length;
+
+            processAnswerResult(isCorrect, 'short', isCorrect ? questionWeight : 0);
+        }
+
+        function processAnswerResult(isCorrect, typeKey, bgdPointGained = 0, customMessage = "") {
+            stats.byType[typeKey].total++;
+            rawWeightedPoints = Math.min(10.0, rawWeightedPoints + bgdPointGained);
+
+            if (isCorrect) {
+                playSound('correct');
+                streak++;
+                score += 20;
+                stats.correct++;
+                stats.byType[typeKey].correct++;
+                showExplanation(true, customMessage || `Chính xác! (+20 xu)`);
+                if (window.confetti && streak % 5 === 0) {
+                    confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
+                }
+            } else {
+                playSound('wrong');
+                stats.wrong++;
+
+                if (isShieldActive) {
+                    isShieldActive = false;
+                    document.getElementById('active-shield-banner').classList.add('hidden');
+                    showExplanation(false, customMessage || `Lá Chắn đã bảo vệ bạn khỏi việc trừ điểm!`);
+                } else {
+                    streak = 0;
+                    score = Math.max(0, score - 5);
+                    showExplanation(false, customMessage || `Chưa chính xác!`);
+                }
+            }
+
+            updateHeaderUI();
+            saveUserData();
+            document.getElementById('btn-next-question').classList.remove('hidden');
+        }
+
+        function showExplanation(isCorrect, heading) {
+            const expBox = document.getElementById('explanation-box');
+            const expHeader = document.getElementById('explanation-header');
+            const expText = document.getElementById('explanation-text');
+            const q = questions[currentIndex];
+
+            expBox.classList.remove('hidden');
+            if (isCorrect) {
+                expBox.className = "p-5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 text-slate-100 space-y-2";
+                expHeader.className = "font-bold text-base flex items-center space-x-2 text-emerald-400";
+                expHeader.innerHTML = `<i class="fa-solid fa-circle-check"></i><span>${heading}</span>`;
+            } else {
+                expBox.className = "p-5 rounded-xl border border-rose-500/40 bg-rose-500/10 text-slate-100 space-y-2";
+                expHeader.className = "font-bold text-base flex items-center space-x-2 text-rose-400";
+                expHeader.innerHTML = `<i class="fa-solid fa-circle-xmark"></i><span>${heading}</span>`;
+            }
+            expText.innerText = q.explanation;
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < questions.length) {
+                renderQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function usePowerUp(type) {
+            if (answeredCurrent || powerUpUsedThisQuestion) return;
+            if (powerUps[type] <= 0) {
+                openShopModal();
+                return;
+            }
+
+            const q = questions[currentIndex];
+            if (type === 'shield') {
+                if (isShieldActive) return;
+                isShieldActive = true;
+                powerUps.shield--;
+                playSound('powerup');
+                document.getElementById('active-shield-banner').classList.remove('hidden');
+            } else if (type === 'fifty') {
+                if (q.type !== 'multiple') {
+                    showCustomAlert("Trợ giúp 50:50 chỉ áp dụng cho câu hỏi Trắc nghiệm nhiều lựa chọn!");
+                    return;
+                }
+                powerUps.fifty--;
+                playSound('powerup');
+                const buttons = document.querySelectorAll('.option-btn');
+                let removed = 0;
+                buttons.forEach((btn, idx) => {
+                    if (idx !== q.correctIndex && removed < 2) {
+                        btn.style.opacity = '0.2';
+                        btn.disabled = true;
+                        removed++;
+                    }
+                });
+            } else if (type === 'hint') {
+                powerUps.hint--;
+                playSound('powerup');
+                document.getElementById('hint-text').innerText = q.hint;
+                document.getElementById('hint-box').classList.remove('hidden');
+            } else if (type === 'keyword') {
+                powerUps.keyword--;
+                playSound('powerup');
+                document.getElementById('question-title').innerText = `[Câu ${currentIndex + 1} - TÓM TẮT] ${q.keywordSummary}`;
+            }
+
+            powerUpUsedThisQuestion = true;
+            setPowerUpButtonsState(true);
+            updateHeaderUI();
+            saveUserData();
+        }
+
+        function openShopModal() { document.getElementById('shop-modal').classList.remove('hidden'); }
+        function closeShopModal() { document.getElementById('shop-modal').classList.add('hidden'); }
+        function buyItem(type, cost) {
+            if (score < cost) {
+                showCustomAlert("Bạn không đủ xu thưởng!");
+                return;
+            }
+            score -= cost;
+            powerUps[type] += 3;
+            playSound('powerup');
+            updateHeaderUI();
+            saveUserData();
+            showCustomAlert("Mua thành công (+3 lượt)!");
+        }
+
+        function toggleMusicModal() { document.getElementById('music-modal').classList.toggle('hidden'); }
+
+        // Leaderboard & Comparison Modal
+        function openLeaderboardModal() {
+            const modal = document.getElementById('leaderboard-modal');
+            const listContainer = document.getElementById('leaderboard-list');
+            listContainer.innerHTML = '';
+
+            const sortedUsers = Object.keys(allUsersData).sort((a, b) => {
+                return (allUsersData[b].bestScore || 0) - (allUsersData[a].bestScore || 0);
+            });
+
+            if (sortedUsers.length === 0) {
+                listContainer.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">Chưa có dữ liệu người dùng nào.</p>`;
+            } else {
+                sortedUsers.forEach((uname, index) => {
+                    const uData = allUsersData[uname];
+                    const isMe = (uname === currentUser);
+                    const showName = uData.displayName || uname;
+                    const row = document.createElement('div');
+                    row.className = `glass p-3 rounded-xl flex items-center justify-between border ${isMe ? 'border-indigo-500 bg-indigo-500/10' : 'border-slate-700/50'}`;
+                    row.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <span class="w-6 text-center font-bold text-sm ${index === 0 ? 'text-amber-400' : index === 1 ? 'text-slate-300' : index === 2 ? 'text-amber-600' : 'text-slate-500'}">#${index + 1}</span>
+                            <div>
+                                <h4 class="font-semibold text-white text-sm">${showName} ${isMe ? '(Bạn)' : ''}</h4>
+                                <p class="text-[10px] text-slate-400">Tài khoản: @${uname}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-amber-400 font-bold text-sm">${(uData.bestScore || 0).toFixed(2)} đ</div>
+                            <div class="text-[10px] text-slate-400">${uData.coins} xu</div>
+                        </div>
+                    `;
+                    listContainer.appendChild(row);
+                });
+            }
+
+            modal.classList.remove('hidden');
+        }
+        function closeLeaderboardModal() { document.getElementById('leaderboard-modal').classList.add('hidden'); }
+
+        function finishQuiz() {
+            clearInterval(timerInterval);
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-summary').classList.remove('hidden');
+
+            const total = questions.length;
+            const accuracy = Math.round((stats.correct / total) * 100);
+
+            document.getElementById('summary-total-score').innerText = `${rawWeightedPoints.toFixed(2)} / 10`;
+            document.getElementById('summary-accuracy').innerText = `${accuracy}%`;
+            document.getElementById('summary-correct-count').innerText = `${stats.correct}/${total}`;
+
+            const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+            const secs = String(timerSeconds % 60).padStart(2, '0');
+            document.getElementById('summary-time').innerText = `${mins}:${secs}`;
+
+            saveUserData();
+
+            const breakdownContainer = document.getElementById('breakdown-container');
+            breakdownContainer.innerHTML = '';
+
+            const types = [
+                { key: 'multiple', label: 'Trắc nghiệm nhiều lựa chọn' },
+                { key: 'truefalse', label: 'Trắc nghiệm Đúng / Sai (Thang điểm BGD)' },
+                { key: 'short', label: 'Trả lời ngắn / Điền số' }
+            ];
+
+            types.forEach(t => {
+                const data = stats.byType[t.key];
+                const pct = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0;
+                const row = document.createElement('div');
+                row.className = "space-y-1";
+                row.innerHTML = `
+                    <div class="flex justify-between text-xs text-slate-300">
+                        <span>${t.label}</span>
+                        <span class="font-bold">${data.correct}/${data.total} (${pct}%)</span>
+                    </div>
+                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                        <div class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full" style="width: ${pct}%"></div>
+                    </div>
+                `;
+                breakdownContainer.appendChild(row);
+            });
+
+            const diagText = document.getElementById('diagnosis-text');
+            if (rawWeightedPoints >= 8.5) {
+                diagText.innerHTML = `<span class="text-emerald-400 font-bold">Xuất sắc (${rawWeightedPoints.toFixed(2)}đ)!</span> Bạn đã nắm vững lý thuyết và các dạng bài tập BGD về Công nghệ Gene.`;
+            } else if (rawWeightedPoints >= 6.5) {
+                diagText.innerHTML = `<span class="text-indigo-400 font-bold">Khá tốt (${rawWeightedPoints.toFixed(2)}đ)!</span> Cần ôn thêm các câu hỏi Đúng/Sai ở phần cấu trúc cắt plasmid và điện di DNA.`;
+            } else {
+                diagText.innerHTML = `<span class="text-amber-400 font-bold">Cần rèn luyện thêm (${rawWeightedPoints.toFixed(2)}đ)!</span> Hãy chú ý ôn tập lại kỹ thuật tạo DNA tái tổ hợp và tách chiết DNA.`;
+            }
+
+            if (window.confetti && rawWeightedPoints >= 7.0) {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            }
+        }
+
+        function restartQuiz() { startQuiz(); }
+        function returnToHome() {
+            clearInterval(timerInterval);
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-summary').classList.add('hidden');
+            document.getElementById('screen-welcome').classList.remove('hidden');
+        }
+        function quitQuiz() {
+            if (confirm("Bạn có chắc chắn muốn dừng đợt ôn luyện này không?")) {
+                returnToHome();
+            }
+        }
+    </script>
+</body>
+</html>
